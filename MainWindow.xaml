@@ -1,0 +1,43 @@
+﻿<Window x:Class="TodoList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:TodoList"
+        mc:Ignorable="d"
+        Title="TodoList" Height="960" Width="1280"
+        ResizeMode="NoResize">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top" Loaded="Menu_Loaded">
+                <MenuItem Header="ファイル(_F)">
+                    <MenuItem Header="予定を追加" Click="add_sd"/>
+                    <MenuItem Header="予定を削除" Click="delete_sd"/>
+                </MenuItem>
+                <MenuItem Header="その他(_O)">
+                    <MenuItem Header="終了" Click="exit_click"/>
+                </MenuItem>
+
+
+            </Menu>
+        </DockPanel>
+
+        <StackPanel>
+            <Grid>
+                <Label x:Name="label" Content="test" Margin="0,18,0,823"/>
+                <Button x:Name="button" Content="新規作成" HorizontalAlignment="Left" Margin="0,44,0,0" VerticalAlignment="Top" Width="170" Height="25" Click="New_button"/>
+                <DatePicker x:Name="date_picker" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top" Width="170" SelectedDateChanged="Date_Change_todo"/>
+                <ListBox x:Name="listBox" HorizontalAlignment="Left" Margin="0,93,0,0" Width="170" SelectionChanged="Listbox_SelectionChanged"/>
+                <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル" Margin="175,44,10,760" FontSize="50"  MaxLength="52" LostFocus="Lost_Focus_textBox_title"/>
+                <Label x:Name="label2" Content="日付を選択" Margin="170,221,10,633" FontSize="20"/>
+                <xctk:DateTimePicker x:Name="datetimePicker" Margin="175,256,694,618" ValueChanged="DateTime_Change_contents"/>
+                <Label x:Name="label3" Content="詳細" Margin="175,321,0,453" FontSize="20"/>
+                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="詳細" Margin="175,364,10,65" FontSize="25" LostFocus="Lost_Focus_textBox"/>
+                <Button x:Name="complete" Content="完了" HorizontalAlignment="Left" Margin="1162,874,0,0" VerticalAlignment="Top" Width="100"/>
+                <Button x:Name="delete" Content="予定を削除" HorizontalAlignment="Left" Margin="175,884,0,0" VerticalAlignment="Top" Width="76" Click="delete_button"/>
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</Window>
