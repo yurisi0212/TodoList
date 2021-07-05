@@ -10,7 +10,7 @@ namespace TodoList {
     /// </summary>
     public partial class MainWindow : Window {
 
-        private DataFile dataFile = new DataFile();
+        reiprivate DataFile dataFile = new DataFile();
 
         private List<ListBoxItem> title =  new List<ListBoxItem>();
         private void Menu_Loaded(object sender, RoutedEventArgs e) {
@@ -44,6 +44,10 @@ namespace TodoList {
         }
 
         private void deleteItem() {
+            if (listBox.SelectedIndex == -1) {
+                label.Content = "予定が存在しません";
+                return;
+            }
             title.RemoveAt(listBox.SelectedIndex);
             listBox.Items.RemoveAt(listBox.SelectedIndex);
         }

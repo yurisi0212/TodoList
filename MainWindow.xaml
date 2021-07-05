@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:TodoList"
         mc:Ignorable="d"
-        Title="TodoList" Height="960" Width="1280"
+        Title="TodoList" Height="795" Width="1060"
         ResizeMode="NoResize">
     <Grid>
         <DockPanel>
@@ -28,14 +28,14 @@
                 <Label x:Name="label" Content="test" Margin="0,18,0,823"/>
                 <Button x:Name="button" Content="新規作成" HorizontalAlignment="Left" Margin="0,44,0,0" VerticalAlignment="Top" Width="170" Height="25" Click="New_button"/>
                 <DatePicker x:Name="date_picker" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top" Width="170" SelectedDateChanged="Date_Change_todo"/>
-                <ListBox x:Name="listBox" HorizontalAlignment="Left" Margin="0,93,0,0" Width="170" SelectionChanged="Listbox_SelectionChanged"/>
+                <ListBox x:Name="listBox" HorizontalAlignment="Left" Margin="0,93,0,149" Width="170" SelectionChanged="Listbox_SelectionChanged"/>
                 <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル" Margin="175,44,10,760" FontSize="50"  MaxLength="52" LostFocus="Lost_Focus_textBox_title"/>
-                <Label x:Name="label2" Content="日付を選択" Margin="170,221,10,633" FontSize="20"/>
-                <xctk:DateTimePicker x:Name="datetimePicker" Margin="175,256,694,618" ValueChanged="DateTime_Change_contents"/>
-                <Label x:Name="label3" Content="詳細" Margin="175,321,0,453" FontSize="20"/>
-                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="詳細" Margin="175,364,10,65" FontSize="25" LostFocus="Lost_Focus_textBox"/>
-                <Button x:Name="complete" Content="完了" HorizontalAlignment="Left" Margin="1162,874,0,0" VerticalAlignment="Top" Width="100"/>
-                <Button x:Name="delete" Content="予定を削除" HorizontalAlignment="Left" Margin="175,884,0,0" VerticalAlignment="Top" Width="76" Click="delete_button"/>
+                <Label x:Name="label2" Content="日付を選択" Margin="170,168,10,686" FontSize="20"/>
+                <xctk:DateTimePicker x:Name="datetimePicker" Margin="175,213,592,661" ValueChanged="DateTime_Change_contents"/>
+                <Label x:Name="label3" Content="詳細" Margin="175,252,0,599" FontSize="20"/>
+                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="詳細" Margin="175,295,10,194" FontSize="25" LostFocus="Lost_Focus_textBox"/>
+                <Button x:Name="complete" Content="完了" HorizontalAlignment="Left" Margin="944,720,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.49,-0.85"/>
+                <Button x:Name="delete" Content="予定を削除" HorizontalAlignment="Left" Margin="175,720,0,0" VerticalAlignment="Top" Width="76" Click="delete_button" RenderTransformOrigin="0.5,-0.4"/>
             </Grid>
         </StackPanel>
 
