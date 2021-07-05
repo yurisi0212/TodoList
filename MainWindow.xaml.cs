@@ -10,7 +10,7 @@ namespace TodoList {
     /// </summary>
     public partial class MainWindow : Window {
 
-        reiprivate DataFile dataFile = new DataFile();
+        private DataFile dataFile = new DataFile();
 
         private List<ListBoxItem> title =  new List<ListBoxItem>();
         private void Menu_Loaded(object sender, RoutedEventArgs e) {
