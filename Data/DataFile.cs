@@ -10,12 +10,12 @@ namespace TodoList.Data {
         /// <summary>
         /// フォルダへのパス
         /// </summary>
-        private string path = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\TodoList";
+        private string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\TodoList";
 
         /// <summary>
         /// csvファイルへのパス
         /// </summary>
-        private string csvPath = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\TodoList\todo.csv";
+        private string csvPath = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\TodoList\todo.data";
 
         /// <summary>
         /// ScheduleDataのオブジェクトを保持するList
