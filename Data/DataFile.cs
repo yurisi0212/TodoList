@@ -1,66 +1,157 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Microsoft.VisualBasic.FileIO;
 
 namespace TodoList.Data {
     class DataFile {
 
+        /// <summary>
+        /// フォルダへのパス
+        /// </summary>
         private string path = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\TodoList";
+
+        /// <summary>
+        /// csvファイルへのパス
+        /// </summary>
         private string csvPath = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\TodoList\todo.csv";
 
-        private List<List<string>> data = new List<List<string>>();
-        public bool folderExists () {
+        /// <summary>
+        /// ScheduleDataのオブジェクトを保持するList
+        /// </summary>
+        private List<ScheduleData> data = new List<ScheduleData>();
+
+        public bool folderExists() {
             return Directory.Exists(path);
+        }
+
+        public bool fileExists() {
+            return File.Exists(csvPath);
         }
 
         public void makeFile() {
             Directory.CreateDirectory(path);
             File.Create(csvPath).Close();
+
         }
 
         public string getPath() {
             return path;
         }
 
-        public void Parsor() {
-            using (var parser = new TextFieldParser(path)) {
+        public string getCsvPath() {
+            return csvPath;
+        }
+
+        public void Parse() {
+            data = new List<ScheduleData>();
+            using (var parser = new TextFieldParser(csvPath)) {
                 parser.Delimiters = new string[] { "," };
-                int count = 0;
-                data.Add(new List<string>());
+                int indexCount = 0;
                 while (!parser.EndOfData) {
                     var fields = parser.ReadFields();
+                    int count = 0;
+                    ScheduleData scheduleData = new ScheduleData();
                     foreach (var s in fields) {
-                        data[count].Add(s);
+                        if (count == 0) {
+                            scheduleData.title = s;
+                            count++;
+                            continue;
+                        } else if (count == 1) {
+                            scheduleData.dateTime = DateTime.Parse(s);
+                            count++;
+                            continue;
+                        } else if (count == 2) {
+                            scheduleData.contents = s;
+                            count++;
+                            continue;
+                        }
+                        scheduleData.complete = Boolean.Parse(s);
                     }
+                    scheduleData.index = indexCount;
+                    data.Add(scheduleData);
+                    
+                    indexCount++;
                 }
             }
         }
 
-        public void addData(string title,DateTime date,string contents,bool complete) {
+        public void addData(ScheduleData sd) {
             Encoding enc = Encoding.GetEncoding("utf-8");
             StreamWriter writer = new StreamWriter(csvPath, true, enc);
-            writer.WriteLine(title + "," + date.ToString() + "," + contents + "," + complete.ToString());
+            writer.WriteLine(sd.title + "," + sd.dateTime.ToString() + "," + sd.contents + "," + sd.complete.ToString());
             writer.Close();
+            Parse();
         }
 
-        public void deleteData() {
-
-        }
-
-        public List<List<string>> getDataByDateTime(DateTime dateTime) {
-            List<List<string>> datetimeData = new List<List<string>>();
-            datetimeData.Add(new List<string>());
-            for (int i = 0; i < data.Count; i++) {
-                if(DateTime.ParseExact("yyyy/MM/dd", data[i][1], null).ToString() == dateTime.ToString("yyyy/MM/dd")) {
-                    foreach(string addData in data[i]) {
-                        datetimeData[i].Add(addData);
-                    } 
-               }
-
+        public void deleteData(int index) {
+            Parse();
+            int count = 0;
+            string line;
+            if (!File.Exists(csvPath + ".data")) File.Create(csvPath + ".data").Close();
+            Encoding enc = Encoding.GetEncoding("utf-8");
+            StreamWriter writer = new StreamWriter(csvPath + ".data", true, enc);
+            StreamReader reader = new StreamReader(csvPath);
+            using (reader) {
+                using (writer) {
+                    while (reader.Peek() >= 0) {
+                        line = reader.ReadLine();
+                        if (index == count) {
+                            count++;
+                            continue;
+                        }
+                        writer.WriteLine(line);
+                        count++;
+                    }
+                }
             }
+            File.Delete(csvPath);
+            File.Move(csvPath + ".data", csvPath);
+            Parse();
+        }
+
+        public void changeData(ScheduleData sd) {
+            Parse();
+            int count = 0;
+            string line;
+            if (!File.Exists(csvPath + ".data")) File.Create(csvPath + ".data").Close();
+            Encoding enc = Encoding.GetEncoding("utf-8");
+            StreamWriter writer = new StreamWriter(csvPath + ".data", true, enc);
+            StreamReader reader = new StreamReader(csvPath);
+            using (reader) {
+                using (writer) {
+                    while (reader.Peek() >= 0) {
+                        line = reader.ReadLine();
+                        if (sd.index == count) {
+                            writer.WriteLine(sd.title + "," + sd.dateTime.ToString() + "," + sd.contents + "," + sd.complete.ToString());
+                            count++;
+                            continue;
+                        }
+                        writer.WriteLine(line);
+                        count++;
+                    }
+                }
+            }
+            File.Delete(csvPath);
+            File.Move(csvPath + ".data", csvPath);
+            Parse();
+        }
+
+        public List<ScheduleData> getData() {
+            return data;
+        }
+
+        public List<ScheduleData> getDataByDateTime(string dateTime) {
+            DateTime dt = DateTime.Parse(dateTime);
+            List<ScheduleData> datetimeData = new List<ScheduleData>();
+            foreach (ScheduleData sd in data) {
+                if (sd.dateTime.ToString("yyyy/MM/dd") == dt.ToString("yyyy/MM/dd")) datetimeData.Add(sd);
+            }
+            datetimeData.Sort((a, b) => a.dateTime.CompareTo(b.dateTime));
             return datetimeData;
         }
+
+
     }
 }

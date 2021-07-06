@@ -23,19 +23,28 @@
             </Menu>
         </DockPanel>
 
+
         <StackPanel>
-            <Grid>
-                <Label x:Name="label" Content="test" Margin="0,18,0,823"/>
-                <Button x:Name="button" Content="新規作成" HorizontalAlignment="Left" Margin="0,44,0,0" VerticalAlignment="Top" Width="170" Height="25" Click="New_button"/>
-                <DatePicker x:Name="date_picker" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top" Width="170" SelectedDateChanged="Date_Change_todo"/>
-                <ListBox x:Name="listBox" HorizontalAlignment="Left" Margin="0,93,0,149" Width="170" SelectionChanged="Listbox_SelectionChanged"/>
-                <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル" Margin="175,44,10,760" FontSize="50"  MaxLength="52" LostFocus="Lost_Focus_textBox_title"/>
-                <Label x:Name="label2" Content="日付を選択" Margin="170,168,10,686" FontSize="20"/>
-                <xctk:DateTimePicker x:Name="datetimePicker" Margin="175,213,592,661" ValueChanged="DateTime_Change_contents"/>
-                <Label x:Name="label3" Content="詳細" Margin="175,252,0,599" FontSize="20"/>
-                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="詳細" Margin="175,295,10,194" FontSize="25" LostFocus="Lost_Focus_textBox"/>
-                <Button x:Name="complete" Content="完了" HorizontalAlignment="Left" Margin="944,720,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.49,-0.85"/>
-                <Button x:Name="delete" Content="予定を削除" HorizontalAlignment="Left" Margin="175,720,0,0" VerticalAlignment="Top" Width="76" Click="delete_button" RenderTransformOrigin="0.5,-0.4"/>
+            <Grid Margin="189,0,0,0" Height="766">
+                <Label x:Name="label_complete" Content=""  FontSize="20" Margin="0,39,0,688"/>
+                <Button x:Name="complete_button_name" Content="完了！" HorizontalAlignment="Left" Margin="724,44,0,0" VerticalAlignment="Top" Width="116" RenderTransformOrigin="0.49,-0.85" Height="34" Click="Complete_button_name_Click"/>
+                <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル" Margin="0,83,10,607" FontSize="50"  MaxLength="10" LostFocus="Lost_Focus_textBox_title"/>
+                <Label Content="日付を選択"  FontSize="20" Margin="0,201,719,523"/>
+                <xctk:DateTimePicker x:Name="datetimePicker"  ValueChanged="DateTime_Change_contents" ShowButtonSpinner="False" Margin="0,248,589,498"/>
+                <Label Content="詳細"  FontSize="20" Margin="0,316,0,412" HorizontalAlignment="Left" Width="66" RenderTransformOrigin="0.727,0.526"/>
+                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="詳細" Margin="0,359,10,51" FontSize="25" LostFocus="Lost_Focus_textBox"/>
+                <Button x:Name="delete_button_name" Content="予定を削除" HorizontalAlignment="Left" Margin="0,720,0,0" VerticalAlignment="Top" Width="76" Click="delete_button" RenderTransformOrigin="0.5,-0.4"/>
+                <Button x:Name="save_button_name" Content="変更を保存" HorizontalAlignment="Left" Margin="764,720,0,0" VerticalAlignment="Top" Width="76"  Click="save_button" RenderTransformOrigin="0.138,0.575"/>
+
+            </Grid>
+        </StackPanel>
+
+        <StackPanel>
+            <Grid Margin="0,0,875,0" Height="766">
+                <Label x:Name="label" Content="ようこそ！" Margin="0,18,-875,716" RenderTransformOrigin="0.5,0.5"/>
+                <Button x:Name="button" Content="新規作成" HorizontalAlignment="Left" Margin="0,44,0,0" VerticalAlignment="Top" Width="169" Height="25" Click="New_button"/>
+                <DatePicker x:Name="date_picker" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top" Width="169" SelectedDateChanged="Date_Change_todo"/>
+                <ComboBox x:Name="combo" Margin="0,93,0,650" IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged"/>
             </Grid>
         </StackPanel>
 
