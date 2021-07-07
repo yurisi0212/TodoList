@@ -59,5 +59,15 @@ namespace TodoList.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon todo {
+            get {
+                object obj = ResourceManager.GetObject("todo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
