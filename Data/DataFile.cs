@@ -33,7 +33,10 @@ namespace TodoList.Data {
         public void makeFile() {
             Directory.CreateDirectory(path);
             File.Create(csvPath).Close();
+        }
 
+        public void deleteFile() {
+            File.Delete(csvPath);
         }
 
         public string getPath() {
@@ -142,12 +145,23 @@ namespace TodoList.Data {
             return data;
         }
 
-        public List<ScheduleData> getDataByDateTime(string dateTime) {
+        public List<ScheduleData> getDataByDateTime(string dateTime,bool complete) {
             DateTime dt = DateTime.Parse(dateTime);
             List<ScheduleData> datetimeData = new List<ScheduleData>();
-            foreach (ScheduleData sd in data) {
-                if (sd.dateTime.ToString("yyyy/MM/dd") == dt.ToString("yyyy/MM/dd")) datetimeData.Add(sd);
+            if (complete) {
+                foreach (ScheduleData sd in data) {
+                    if (sd.dateTime.ToString("yyyy/MM/dd") == dt.ToString("yyyy/MM/dd")) datetimeData.Add(sd);
+                }
+            } else {
+                foreach (ScheduleData sd in data) {
+                    if (sd.dateTime.ToString("yyyy/MM/dd") == dt.ToString("yyyy/MM/dd")) {
+                        if (sd.complete == false) { 
+                        datetimeData.Add(sd);
+                        }
+                    }
+                }
             }
+            
             datetimeData.Sort((a, b) => a.dateTime.CompareTo(b.dateTime));
             return datetimeData;
         }

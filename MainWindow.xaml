@@ -12,12 +12,16 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top" Loaded="Menu_Loaded">
                 <MenuItem Header="ファイル(_F)">
-                    <MenuItem Header="予定を追加" Click="add_sd"/>
-                    <MenuItem Header="予定を削除" Click="delete_sd"/>
-                </MenuItem>
-                <MenuItem Header="その他(_O)">
+                    <MenuItem Header="データを削除する" Click="MenuItem_Click"/>
+                    <Separator />
                     <MenuItem Header="終了" Click="exit_click"/>
                 </MenuItem>
+                <MenuItem Header="編集(_O)">
+                    <MenuItem Header="予定を追加" Click="add_sd"/>
+                    <MenuItem Header="予定を削除" Click="delete_sd"/>
+                    
+                </MenuItem>
+                
 
 
             </Menu>
@@ -26,6 +30,8 @@
 
         <StackPanel>
             <Grid Margin="189,0,0,0" Height="766">
+                <Line X1="0" Y1="20" X2="1055" Y2="20" Stroke="Black" StrokeThickness="1"  Margin="-188,0,0,0" />
+                <Line X1="175" Y1="20" X2="175" Y2="770" Stroke="Black" StrokeThickness="1" Margin="-188,0,0,0" />
                 <Label x:Name="label_complete" Content=""  FontSize="20" Margin="0,39,0,688"/>
                 <Button x:Name="complete_button_name" Content="完了！" HorizontalAlignment="Left" Margin="724,44,0,0" VerticalAlignment="Top" Width="116" RenderTransformOrigin="0.49,-0.85" Height="34" Click="Complete_button_name_Click"/>
                 <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル" Margin="0,83,10,607" FontSize="50"  MaxLength="24" LostFocus="Lost_Focus_textBox_title"/>
@@ -38,13 +44,15 @@
 
             </Grid>
         </StackPanel>
-
-        <StackPanel>
+        
+            <StackPanel>
             <Grid Margin="0,0,875,0" Height="766">
+                
                 <Label x:Name="label" Content="ようこそ！" Margin="0,18,-875,716" RenderTransformOrigin="0.5,0.5"/>
                 <Button x:Name="button" Content="新規作成" HorizontalAlignment="Left" Margin="0,44,0,0" VerticalAlignment="Top" Width="169" Height="25" Click="New_button"/>
                 <DatePicker x:Name="date_picker" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top" Width="169" SelectedDateChanged="Date_Change_todo"/>
-                <ComboBox x:Name="combo" Margin="0,93,0,650" IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged"/>
+                <CheckBox x:Name="check" Content="完了済みも表示" Margin="10,724,-10,24" IsChecked="True" Click="check_Click"/>
+                <ComboBox x:Name="combo" Margin="0,93,10,650" IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged"/>
             </Grid>
         </StackPanel>
 

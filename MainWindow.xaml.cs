@@ -23,7 +23,7 @@ namespace TodoList {
         /// <summary>
         /// コンボボックスのアイテムを格納するList
         /// </summary>
-        private List<ComboBoxItem> title =  new List<ComboBoxItem>();
+        private List<ComboBoxItem> title = new List<ComboBoxItem>();
 
         /// <summary>
         /// スケジュールデータのオブジェクトを保存するList
@@ -41,8 +41,8 @@ namespace TodoList {
                 dataFile.makeFile();
             }
             dataFile.Parse();
-            combo.Items.Add(new ComboBoxItem().Name="test");
-            date_picker.SelectedDate = DateTime.Today;   
+            combo.Items.Add(new ComboBoxItem().Name = "test");
+            date_picker.SelectedDate = DateTime.Today;
         }
 
         public void add_sd(object sender, RoutedEventArgs e) {
@@ -62,7 +62,7 @@ namespace TodoList {
         }
 
         private void Date_Change_todo(object sender, SelectionChangedEventArgs e) {
-            changeViewItem(date_picker.SelectedDate.ToString());
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
         }
 
         public void Combo_SelectionChanged(object sender, EventArgs e) {
@@ -83,7 +83,7 @@ namespace TodoList {
 
         }
 
-        
+
 
         private void Complete_button_name_Click(object sender, RoutedEventArgs e) {
             if (combo.SelectedIndex == -1) {
@@ -92,10 +92,10 @@ namespace TodoList {
             }
             bool vi = viewItem[combo.SelectedIndex].complete ? viewItem[combo.SelectedIndex].complete = false : viewItem[combo.SelectedIndex].complete = true;
             string msg = viewItem[combo.SelectedIndex].complete ? "完了しました" : "完了をキャンセルしました";
-            label.Content = "["+viewItem[combo.SelectedIndex] .title+"]を"+ msg;
+            label.Content = "[" + viewItem[combo.SelectedIndex].title + "]を" + msg;
             dataFile.changeData(viewItem[combo.SelectedIndex]);
             dataFile.Parse();
-            changeViewItem(date_picker.SelectedDate.ToString());
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
             resetForm();
         }
 
@@ -115,8 +115,8 @@ namespace TodoList {
                 label.Content = "予定を選択または新規作成してください";
                 return;
             }
-                      
-            changeViewItem(date_picker.SelectedDate.ToString());
+
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
             fixesIndex();
         }
 
@@ -148,16 +148,16 @@ namespace TodoList {
             label.Content = "[" + viewItem[combo.SelectedIndex].title + "]の変更を保存しました！";
             dataFile.changeData(viewItem[combo.SelectedIndex]);
             dataFile.Parse();
-            changeViewItem(date_picker.SelectedDate.ToString());
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
             resetForm();
 
         }
 
-        private void changeViewItem(string date) {
+        private void changeViewItem(string date ,bool complete) {
             combo.Items.Clear();
             title.Clear();
             viewItem.Clear();
-            List<ScheduleData> data = dataFile.getDataByDateTime(date);
+            List<ScheduleData> data = dataFile.getDataByDateTime(date,complete);
             if (data == null) return;
             foreach (ScheduleData sd in data) {
                 ComboBoxItem comboItem = new ComboBoxItem();
@@ -187,7 +187,7 @@ namespace TodoList {
             sd.complete = false;
             viewItem.Add(sd);
             dataFile.addData(sd);
-            changeViewItem(date_picker.SelectedDate.ToString());
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
             label.Content = "[" + sd.title + "]を作成しました！";
             resetForm();
         }
@@ -203,14 +203,29 @@ namespace TodoList {
             viewItem.RemoveAt(combo.SelectedIndex);
             combo.Items.RemoveAt(combo.SelectedIndex);
             dataFile.Parse();
-            changeViewItem(date_picker.SelectedDate.ToString());
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
             textBox_title.Text = "タイトル";
             textBox.Text = "詳細";
             datetimePicker.Value = null;
         }
-        
+
         private void fixesIndex() {
             if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+            MessageBoxResult result = MessageBox.Show("データを削除してもよろしいでしょうか", "todoList", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (result == MessageBoxResult.Yes) {
+                dataFile.deleteFile();
+                dataFile.makeFile();
+                dataFile.Parse();
+                changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
+            }
+        }
+
+
+        private void check_Click(object sender, RoutedEventArgs e) {
+            changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
         }
     }
 }
