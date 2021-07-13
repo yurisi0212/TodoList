@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:TodoList"
         mc:Ignorable="d"
         Title="TodoList" Height="795" Width="1060"
-        ResizeMode="CanMinimize">
+        >
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top" Loaded="Menu_Loaded">
@@ -19,42 +19,121 @@
                 <MenuItem Header="編集(_O)">
                     <MenuItem Header="予定を追加" Click="add_sd"/>
                     <MenuItem Header="予定を削除" Click="delete_sd"/>
-                    
                 </MenuItem>
-                
-
-
             </Menu>
         </DockPanel>
 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="15*"/>
+            </Grid.RowDefinitions>
 
-        <StackPanel>
-            <Grid Margin="189,0,0,0" Height="766">
-                <Line X1="0" Y1="43" X2="1055" Y2="43" Stroke="Black" StrokeThickness="0.1"  Margin="-188,0,0,0" />
-                <Line X1="175" Y1="43" X2="175" Y2="770" Stroke="Black" StrokeThickness="0.2" Margin="-188,0,0,0" />
-                <Label x:Name="label_complete" Content=""  FontSize="20" Margin="0,39,0,688"/>
-                <Button x:Name="complete_button_name" Content="完了！" HorizontalAlignment="Left" Margin="724,44,0,0" VerticalAlignment="Top" Width="116" RenderTransformOrigin="0.49,-0.85" Height="34" Click="Complete_button_name_Click"/>
-                <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル" Margin="0,83,10,607" FontSize="50"  MaxLength="24" LostFocus="Lost_Focus_textBox_title"/>
-                <Label Content="日付を選択"  FontSize="20" Margin="0,201,719,523"/>
-                <xctk:DateTimePicker x:Name="datetimePicker"  ValueChanged="DateTime_Change_contents" ShowButtonSpinner="False" Margin="0,248,589,498"/>
-                <Label Content="詳細"  FontSize="20" Margin="0,316,0,412" HorizontalAlignment="Left" Width="66" RenderTransformOrigin="0.727,0.526"/>
-                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="詳細" Margin="0,359,10,51" FontSize="25" LostFocus="Lost_Focus_textBox"/>
-                <Button x:Name="delete_button_name" Content="予定を削除" HorizontalAlignment="Left" Margin="0,720,0,0" VerticalAlignment="Top" Width="76" Click="delete_button" RenderTransformOrigin="0.5,-0.4"/>
-                <Button x:Name="save_button_name" Content="変更を保存" HorizontalAlignment="Left" Margin="764,720,0,0" VerticalAlignment="Top" Width="76"  Click="save_button" RenderTransformOrigin="0.138,0.575"/>
+            <StackPanel Grid.Row="0" Margin="0,20,0,0">
+                <Label x:Name="label" Content="ようこそ！"  RenderTransformOrigin="0.5,0.5"/>
+            </StackPanel>
+            
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
 
+                <Grid Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" >
+                            <Button x:Name="button" Content="新規作成" Width="auto" Height="auto" Click="New_button"/>
+                            <DatePicker x:Name="date_picker" Width="auto" Height="auto" SelectedDateChanged="Date_Change_todo"/>
+
+                            <ComboBox x:Name="combo"  IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged" MaxDropDownHeight="500"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <CheckBox x:Name="check" Content="完了済みも表示"  IsChecked="True" Click="check_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="10,0,10.5,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="0.5*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Label x:Name="label_complete" Content=""  FontSize="20"/>
+                            </Grid>
+                            <Grid Grid.Column="2" Margin="0,0,0.5,10">
+                                <Button x:Name="complete_button_name" Content="完了！"  Click="Complete_button_name_Click" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル"  FontSize="50"  MaxLength="24" LostFocus="Lost_Focus_textBox_title"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2">
+                        <Label Content="日付を選択"  FontSize="20"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <xctk:DateTimePicker x:Name="datetimePicker"  ValueChanged="DateTime_Change_contents" ShowButtonSpinner="False"/>
+                            </StackPanel>
+                        </Grid>
+
+                    </StackPanel>
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="12*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                        <Label Content="詳細"  FontSize="20" />
+                        </StackPanel>
+                        <Grid Grid.Row="1">
+                            <TextBox x:Name="textBox" TextWrapping="Wrap" Width="auto" Height="auto" Text="詳細"  FontSize="25" LostFocus="Lost_Focus_textBox"/>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid Grid.Row="4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Button x:Name="delete_button_name" Content="予定を削除" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="75" Click="delete_button"/>
+                            </Grid>
+
+                            <Grid Grid.Column="2">
+                                <Button x:Name="save_button_name" Content="変更を保存" HorizontalAlignment="Right"    VerticalAlignment="Center" Width="75"  Click="save_button"/>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
             </Grid>
-        </StackPanel>
-        
-            <StackPanel>
-            <Grid Margin="0,0,875,0" Height="766">
-                
-                <Label x:Name="label" Content="ようこそ！" Margin="0,18,-875,716" RenderTransformOrigin="0.5,0.5"/>
-                <Button x:Name="button" Content="新規作成" HorizontalAlignment="Left" Margin="0,44,0,0" VerticalAlignment="Top" Width="169" Height="25" Click="New_button"/>
-                <DatePicker x:Name="date_picker" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top" Width="169" SelectedDateChanged="Date_Change_todo"/>
-                <CheckBox x:Name="check" Content="完了済みも表示" Margin="10,724,-10,24" IsChecked="True" Click="check_Click"/>
-                <ComboBox x:Name="combo" Margin="0,93,10,650" IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged"/>
-            </Grid>
-        </StackPanel>
-
+        </Grid>
     </Grid>
 </Window>

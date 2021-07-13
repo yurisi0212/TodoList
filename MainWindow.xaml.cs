@@ -214,7 +214,7 @@ namespace TodoList {
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            MessageBoxResult result = MessageBox.Show("データを削除してもよろしいでしょうか", "todoList", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            MessageBoxResult result = MessageBox.Show("データを削除してもよろしいでしょうか\n削除されたデータはもとに戻りません", "todoList", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes) {
                 dataFile.deleteFile();
                 dataFile.makeFile();
