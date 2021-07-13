@@ -52,7 +52,7 @@
                         <StackPanel Grid.Row="0" >
                             <Button x:Name="button" Content="新規作成" Width="auto" Height="auto" Click="New_button"/>
                             <DatePicker x:Name="date_picker" Width="auto" Height="auto" SelectedDateChanged="Date_Change_todo"/>
-                            <ComboBox x:Name="combo"  IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged" MaxDropDownHeight="500"/>
+                            <ComboBox x:Name="combo"  IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged" MaxDropDownHeight="500" IsMouseDirectlyOverChanged="combo_IsMouseDirectlyOverChanged"/>
                         </StackPanel>
                         <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
                             <CheckBox x:Name="check" Content="完了済みも表示"  IsChecked="True" Click="check_Click"/>

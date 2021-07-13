@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using TodoList.Data;
@@ -61,7 +60,6 @@ namespace TodoList {
         private void New_button(object sender, RoutedEventArgs e) {
             newItem();
         }
-
         private void other_Click(object sender, RoutedEventArgs e) {
             MessageBox.Show("TodoList version 1.0.0\n\nCopylight(C)2021 yurisi\nAll rights reserved.\n\ngithub\nhttps://github.com/yurisi0212/TodoList", "TodoList", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -71,27 +69,36 @@ namespace TodoList {
         }
 
         public void Combo_SelectionChanged(object sender, EventArgs e) {
-            changeSelect();
+            comboSelect = combo.SelectedIndex;
+            if (combo.SelectedIndex == -1) {
+                combo.SelectedIndex = comboSelect;
+                return;
+            }
+            ScheduleData vi = viewItem[combo.SelectedIndex];
+            textBox_title.Text = vi.title;
+            datetimePicker.Value = vi.dateTime;
+            textBox.Text = vi.contents;
+            string button_label = vi.complete ? "キャンセル" : "完了！";
+            label_complete.Content = vi.complete ? "完了済み！" : "未完了";
+            complete_button_name.Content = button_label;
+            combo.SelectedIndex = comboSelect;
+            fixesIndex();
+
         }
 
+
+
         private void Complete_button_name_Click(object sender, RoutedEventArgs e) {
-            int select = combo.SelectedIndex;
-            if (select == -1) {
+            if (combo.SelectedIndex == -1) {
                 label.Content = "予定が存在しません";
                 return;
             }
-            bool vi = viewItem[select].complete ? viewItem[select].complete = false : viewItem[select].complete = true;
-            string msg = viewItem[select].complete ? "完了しました" : "完了をキャンセルしました";
-            label.Content = "[" + viewItem[select].title + "]を" + msg;
-            dataFile.changeData(viewItem[select]);
+            bool vi = viewItem[combo.SelectedIndex].complete ? viewItem[combo.SelectedIndex].complete = false : viewItem[combo.SelectedIndex].complete = true;
+            string msg = viewItem[combo.SelectedIndex].complete ? "完了しました" : "完了をキャンセルしました";
+            label.Content = "[" + viewItem[combo.SelectedIndex].title + "]を" + msg;
+            dataFile.changeData(viewItem[combo.SelectedIndex]);
             dataFile.Parse();
             changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
-
-            if (Boolean.Parse(check.IsChecked.ToString())) {
-                combo.SelectedIndex = select;
-                changeSelect();
-                return;
-            }
             resetForm();
         }
 
@@ -113,7 +120,7 @@ namespace TodoList {
             }
 
             changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
-            if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
+            fixesIndex();
         }
 
         private void Lost_Focus_textBox(object sender, EventArgs e) {
@@ -131,34 +138,29 @@ namespace TodoList {
 
         private void save_button(object sender, RoutedEventArgs e) {
             if (combo.SelectedIndex == -1) return;
-            int select = combo.SelectedIndex;
-            if (viewItem[select].title.ToString() != textBox_title.Text.ToString()) {
-                title[select].Content = textBox_title.Text.ToString();
-                viewItem[select].title = textBox_title.Text.ToString();
+            if (viewItem[combo.SelectedIndex].title.ToString() != textBox_title.Text.ToString()) {
+                title[combo.SelectedIndex].Content = textBox_title.Text.ToString();
+                viewItem[combo.SelectedIndex].title = textBox_title.Text.ToString();
             }
-            if (viewItem[select].contents.ToString() != textBox.Text.ToString()) {
-                string str = textBox.Text.ToString().Replace("\r\n", "%esc%").Replace("\n", "%esc%").Replace("\r", "%esc%");
-                viewItem[select].contents = str;
+            if (viewItem[combo.SelectedIndex].contents.ToString() != textBox.Text.ToString()) {
+                viewItem[combo.SelectedIndex].contents = textBox.Text.ToString();
             }
-            if (viewItem[select].dateTime != datetimePicker.Value) {
-                viewItem[select].dateTime = DateTime.Parse(datetimePicker.Value.Value.ToString());
+            if (viewItem[combo.SelectedIndex].dateTime != datetimePicker.Value) {
+                viewItem[combo.SelectedIndex].dateTime = DateTime.Parse(datetimePicker.Value.Value.ToString());
             }
-            label.Content = "[" + viewItem[select].title + "]の変更を保存しました！";
-            dataFile.changeData(viewItem[select]);
+            label.Content = "[" + viewItem[combo.SelectedIndex].title + "]の変更を保存しました！";
+            dataFile.changeData(viewItem[combo.SelectedIndex]);
             dataFile.Parse();
             changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
             resetForm();
-            comboSelect = select;
-            combo.SelectedIndex = select;
-            changeSelect();
 
         }
 
-        private void changeViewItem(string date, bool complete) {
+        private void changeViewItem(string date ,bool complete) {
             combo.Items.Clear();
             title.Clear();
             viewItem.Clear();
-            List<ScheduleData> data = dataFile.getDataByDateTime(date, complete);
+            List<ScheduleData> data = dataFile.getDataByDateTime(date,complete);
             if (data == null) return;
             foreach (ScheduleData sd in data) {
                 ComboBoxItem comboItem = new ComboBoxItem();
@@ -210,40 +212,29 @@ namespace TodoList {
             datetimePicker.Value = null;
         }
 
+        private void fixesIndex() {
+            if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            MessageBoxResult result = MessageBox.Show("データを削除してもよろしいでしょうか\n削除されたデータは元には戻りません", "todoList", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult result = MessageBox.Show("データを削除してもよろしいでしょうか", "todoList", MessageBoxButton.YesNo, MessageBoxImage.Information);
             if (result == MessageBoxResult.Yes) {
                 dataFile.deleteFile();
                 dataFile.makeFile();
                 dataFile.Parse();
                 changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
-                resetForm();
             }
         }
 
-        private void changeSelect() {
-            comboSelect = combo.SelectedIndex;
-            if (combo.SelectedIndex == -1) {
-                combo.SelectedIndex = comboSelect;
-                return;
-            }
-            ScheduleData vi = viewItem[combo.SelectedIndex];
-            textBox_title.Text = vi.title;
-            datetimePicker.Value = vi.dateTime;
-            string str = vi.contents.Replace("%esc%", "\n");
-            textBox.Text = str;
-            string button_label = vi.complete ? "キャンセル" : "完了！";
-            label_complete.Content = vi.complete ? "完了済み！" : "未完了";
-            complete_button_name.Content = button_label;
-            combo.SelectedIndex = comboSelect;
-            if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
-        }
 
         private void check_Click(object sender, RoutedEventArgs e) {
-            combo.SelectedIndex = -1;
-            resetForm();
             changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
+        }
 
+        private void combo_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            if (combo.IsDropDownOpen) {
+                combo.IsDropDownOpen = false;
+            }
         }
     }
 }
