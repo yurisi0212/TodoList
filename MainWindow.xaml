@@ -20,6 +20,9 @@
                     <MenuItem Header="予定を追加" Click="add_sd"/>
                     <MenuItem Header="予定を削除" Click="delete_sd"/>
                 </MenuItem>
+                <MenuItem Header="その他(_O)">
+                    <MenuItem Header="バージョン情報" Click="other_Click"/>
+                </MenuItem>
             </Menu>
         </DockPanel>
 
@@ -49,7 +52,6 @@
                         <StackPanel Grid.Row="0" >
                             <Button x:Name="button" Content="新規作成" Width="auto" Height="auto" Click="New_button"/>
                             <DatePicker x:Name="date_picker" Width="auto" Height="auto" SelectedDateChanged="Date_Change_todo"/>
-
                             <ComboBox x:Name="combo"  IsDropDownOpen="True" DropDownClosed="Combo_SelectionChanged" MaxDropDownHeight="500"/>
                         </StackPanel>
                         <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
@@ -84,7 +86,7 @@
                     </Grid>
 
                     <StackPanel Grid.Row="1">
-                        <TextBox x:Name="textBox_title" TextWrapping="Wrap" Text="タイトル"  FontSize="50"  MaxLength="24" LostFocus="Lost_Focus_textBox_title"/>
+                        <TextBox x:Name="textBox_title" TextWrapping="NoWrap" Text="タイトル"  FontSize="50"  MaxLength="30" LostFocus="Lost_Focus_textBox_title" HorizontalScrollBarVisibility="Auto"/>
                     </StackPanel>
                     
                     <StackPanel Grid.Row="2">
@@ -109,7 +111,7 @@
                         <Label Content="詳細"  FontSize="20" />
                         </StackPanel>
                         <Grid Grid.Row="1">
-                            <TextBox x:Name="textBox" AcceptsReturn="True" TextWrapping="Wrap" Width="auto" Height="auto" Text="詳細"  FontSize="25" LostFocus="Lost_Focus_textBox"/>
+                            <TextBox x:Name="textBox" AcceptsReturn="True" TextWrapping="Wrap" Width="auto" Height="auto" Text="詳細"  FontSize="25" LostFocus="Lost_Focus_textBox" VerticalScrollBarVisibility="Auto"/>
                         </Grid>
                     </Grid>
 

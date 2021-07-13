@@ -62,6 +62,10 @@ namespace TodoList {
             newItem();
         }
 
+        private void other_Click(object sender, RoutedEventArgs e) {
+            MessageBox.Show("TodoList version 1.0.0\n\nCopylight(C)2021 yurisi\nAll rights reserved.\n\ngithub\nhttps://github.com/yurisi0212/TodoList", "TodoList", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         private void Date_Change_todo(object sender, SelectionChangedEventArgs e) {
             changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
         }
