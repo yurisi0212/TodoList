@@ -10,17 +10,21 @@ namespace TodoList.Data {
         /// <summary>
         /// フォルダへのパス
         /// </summary>
-        private string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\TodoList";
+        private string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\yurisi\TodoList";
 
         /// <summary>
-        /// dataファイルへのパス
+        /// csvファイルへのパス
         /// </summary>
-        private string csvPath = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\TodoList\todo.data";
+        private string csvPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\yurisi\TodoList\todo.data";
 
         /// <summary>
-        /// ScheduleDataのオブジェクトを保持するコレクション
+        /// ScheduleDataのオブジェクトを保持するList
         /// </summary>
         private List<ScheduleData> data = new List<ScheduleData>();
+
+        public bool folderExists() {
+            return Directory.Exists(path);
+        }
 
         public bool fileExists() {
             return File.Exists(csvPath);
@@ -33,6 +37,14 @@ namespace TodoList.Data {
 
         public void deleteFile() {
             File.Delete(csvPath);
+        }
+
+        public string getPath() {
+            return path;
+        }
+
+        public string getCsvPath() {
+            return csvPath;
         }
 
         public void Parse() {
@@ -129,6 +141,10 @@ namespace TodoList.Data {
             Parse();
         }
 
+        public List<ScheduleData> getData() {
+            return data;
+        }
+
         public List<ScheduleData> getDataByDateTime(string dateTime,bool complete) {
             DateTime dt = DateTime.Parse(dateTime);
             List<ScheduleData> datetimeData = new List<ScheduleData>();
@@ -145,8 +161,11 @@ namespace TodoList.Data {
                     }
                 }
             }
+            
             datetimeData.Sort((a, b) => a.dateTime.CompareTo(b.dateTime));
             return datetimeData;
         }
+
+
     }
 }
