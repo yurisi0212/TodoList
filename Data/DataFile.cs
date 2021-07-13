@@ -22,10 +22,6 @@ namespace TodoList.Data {
         /// </summary>
         private List<ScheduleData> data = new List<ScheduleData>();
 
-        public bool folderExists() {
-            return Directory.Exists(path);
-        }
-
         public bool fileExists() {
             return File.Exists(csvPath);
         }
@@ -37,14 +33,6 @@ namespace TodoList.Data {
 
         public void deleteFile() {
             File.Delete(csvPath);
-        }
-
-        public string getPath() {
-            return path;
-        }
-
-        public string getCsvPath() {
-            return csvPath;
         }
 
         public void Parse() {
@@ -141,9 +129,6 @@ namespace TodoList.Data {
             Parse();
         }
 
-        public List<ScheduleData> getData() {
-            return data;
-        }
 
         public List<ScheduleData> getDataByDateTime(string dateTime,bool complete) {
             DateTime dt = DateTime.Parse(dateTime);
