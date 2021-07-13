@@ -74,8 +74,6 @@ namespace TodoList {
             changeSelect();
         }
 
-
-
         private void Complete_button_name_Click(object sender, RoutedEventArgs e) {
             int select = combo.SelectedIndex;
             if (select == -1) {
@@ -115,7 +113,7 @@ namespace TodoList {
             }
 
             changeViewItem(date_picker.SelectedDate.ToString(), check.IsChecked.Value);
-            fixesIndex();
+            if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
         }
 
         private void Lost_Focus_textBox(object sender, EventArgs e) {
@@ -212,10 +210,6 @@ namespace TodoList {
             datetimePicker.Value = null;
         }
 
-        private void fixesIndex() {
-            if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
-        }
-
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
             MessageBoxResult result = MessageBox.Show("データを削除してもよろしいでしょうか\n削除されたデータは元には戻りません", "todoList", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes) {
@@ -242,7 +236,7 @@ namespace TodoList {
             label_complete.Content = vi.complete ? "完了済み！" : "未完了";
             complete_button_name.Content = button_label;
             combo.SelectedIndex = comboSelect;
-            fixesIndex();
+            if (combo.SelectedIndex == -1) combo.SelectedIndex = comboSelect;
         }
 
         private void check_Click(object sender, RoutedEventArgs e) {

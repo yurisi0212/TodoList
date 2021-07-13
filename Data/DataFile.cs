@@ -13,12 +13,12 @@ namespace TodoList.Data {
         private string path = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\TodoList";
 
         /// <summary>
-        /// csvファイルへのパス
+        /// dataファイルへのパス
         /// </summary>
         private string csvPath = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\TodoList\todo.data";
 
         /// <summary>
-        /// ScheduleDataのオブジェクトを保持するList
+        /// ScheduleDataのオブジェクトを保持するコレクション
         /// </summary>
         private List<ScheduleData> data = new List<ScheduleData>();
 
